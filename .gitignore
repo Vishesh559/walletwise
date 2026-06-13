@@ -1,0 +1,7 @@
+backend/venv/
+backend/.env
+backend/__pycache__/
+*.pyc
+.DS_Store
+walletwise_app/.dart_tool/
+walletwise_app/build/
