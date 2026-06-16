@@ -37,6 +37,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     },
   ];
 
+  void _goToLogin() {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (_) => const LoginScreen()),
+    );
+  }
+
+  void _goToRegister() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const RegisterScreen()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,19 +58,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            // Skip button
             Align(
               alignment: Alignment.topRight,
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: TextButton(
-                  onPressed: () => Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (_) => const LoginScreen())),
+                  onPressed: _goToLogin,
                   child: const Text('Skip', style: TextStyle(color: Colors.grey)),
                 ),
               ),
             ),
-            // Pages
             Expanded(
               child: PageView.builder(
                 controller: _pageController,
@@ -69,7 +80,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // Illustration circle
                         Container(
                           width: 220,
                           height: 220,
@@ -78,56 +88,47 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             shape: BoxShape.circle,
                           ),
                           child: Center(
-                            child: Text(
-                              page['emoji'],
-                              style: const TextStyle(fontSize: 100),
-                            ),
+                            child: Text(page['emoji'],
+                                style: const TextStyle(fontSize: 100)),
                           ),
                         ),
                         const SizedBox(height: 48),
-                        Text(
-                          page['title'],
-                          style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            color: page['color'],
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
+                        Text(page['title'],
+                            style: TextStyle(
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                                color: page['color']),
+                            textAlign: TextAlign.center),
                         const SizedBox(height: 16),
-                        Text(
-                          page['subtitle'],
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey,
-                            height: 1.6,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
+                        Text(page['subtitle'],
+                            style: const TextStyle(
+                                fontSize: 16, color: Colors.grey, height: 1.6),
+                            textAlign: TextAlign.center),
                       ],
                     ),
                   );
                 },
               ),
             ),
-            // Dots
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(_pages.length, (i) => AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                margin: const EdgeInsets.symmetric(horizontal: 4),
-                width: _currentPage == i ? 24 : 8,
-                height: 8,
-                decoration: BoxDecoration(
-                  color: _currentPage == i
-                      ? _pages[_currentPage]['color']
-                      : Colors.grey[300],
-                  borderRadius: BorderRadius.circular(4),
+              children: List.generate(
+                _pages.length,
+                (i) => AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  width: _currentPage == i ? 24 : 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    color: _currentPage == i
+                        ? _pages[_currentPage]['color']
+                        : Colors.grey[300],
+                    borderRadius: BorderRadius.circular(4),
+                  ),
                 ),
-              )),
+              ),
             ),
             const SizedBox(height: 32),
-            // Button
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
               child: Column(
@@ -142,8 +143,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             curve: Curves.easeInOut,
                           );
                         } else {
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (_) => const RegisterScreen()));
+                          _goToRegister();
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -162,13 +162,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  if (_currentPage == _pages.length - 1)
-                    TextButton(
-                      onPressed: () => Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (_) => const LoginScreen())),
-                      child: const Text('Already have an account? Login',
-                          style: TextStyle(color: Colors.grey)),
-                    ),
+                  TextButton(
+                    onPressed: _goToLogin,
+                    child: const Text('Already have an account? Login',
+                        style: TextStyle(color: Colors.grey)),
+                  ),
                 ],
               ),
             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:walletwise_app/services/api_service.dart';
 import 'package:walletwise_app/screens/home_screen.dart';
+import 'package:walletwise_app/screens/login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -140,8 +141,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(height: 16),
               Center(
                 child: TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Already have an account? Login'),
+                  onPressed: () => Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (_) => const LoginScreen()),
+                    (_) => false,
+                  ),
+                  child: const Text('Already have an account? Login',
+                      style: TextStyle(color: Colors.grey)),
                 ),
               ),
             ],

@@ -52,6 +52,6 @@ class _AuthWrapperState extends State<AuthWrapper> {
   @override
   Widget build(BuildContext context) {
     if (_loading) return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    return _loggedIn ? const HomeScreen() : OnboardingScreen();
+    return _loggedIn ? const HomeScreen() : const OnboardingScreen();
   }
 }

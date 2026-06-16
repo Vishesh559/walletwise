@@ -25,8 +25,8 @@ class _LoginScreenState extends State<LoginScreen> {
     if (result.containsKey('token')) {
       await ApiService.saveToken(result['token']);
       if (mounted) {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (_) => const HomeScreen()));
+        Navigator.pushAndRemoveUntil(context,
+            MaterialPageRoute(builder: (_) => const HomeScreen()), (_) => false);
       }
     } else {
       setState(() { _error = result['error'] ?? 'Login failed'; });
@@ -38,31 +38,61 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),
+      appBar: AppBar(
+        title: const Text('Login'),
+        backgroundColor: const Color(0xFF6C63FF),
+        foregroundColor: Colors.white,
+      ),
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('WalletWise', style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Color(0xFF6C63FF))),
+              const Text('WalletWise',
+                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Color(0xFF6C63FF))),
               const SizedBox(height: 8),
-              const Text('Track your money, simply.', style: TextStyle(fontSize: 16, color: Colors.grey)),
+              const Text('Track your money, simply.',
+                  style: TextStyle(fontSize: 16, color: Colors.grey)),
               const SizedBox(height: 48),
               TextField(
                 controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email', border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  prefixIcon: const Icon(Icons.email_outlined),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
                 keyboardType: TextInputType.emailAddress,
               ),
               const SizedBox(height: 16),
               TextField(
                 controller: _passwordController,
-                decoration: const InputDecoration(labelText: 'Password', border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  prefixIcon: const Icon(Icons.lock_outline),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
                 obscureText: true,
               ),
               if (_error != null) ...[
                 const SizedBox(height: 12),
-                Text(_error!, style: const TextStyle(color: Colors.red)),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.red.shade50,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.red.shade200),
+                  ),
+                  child: Row(children: [
+                    const Icon(Icons.error_outline, color: Colors.red, size: 18),
+                    const SizedBox(width: 8),
+                    Expanded(child: Text(_error!, style: const TextStyle(color: Colors.red))),
+                  ]),
+                ),
               ],
               const SizedBox(height: 24),
               SizedBox(
@@ -76,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   child: _loading
                       ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text('Login', style: TextStyle(color: Colors.white, fontSize: 16)),
+                      : const Text('Login', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                 ),
               ),
               const SizedBox(height: 16),
@@ -84,7 +114,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: TextButton(
                   onPressed: () => Navigator.push(context,
                       MaterialPageRoute(builder: (_) => const RegisterScreen())),
-                  child: const Text('No account yet? Register here'),
+                  child: const Text('No account yet? Register here',
+                      style: TextStyle(color: Color(0xFF6C63FF))),
                 ),
               ),
             ],

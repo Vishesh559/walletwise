@@ -106,4 +106,54 @@ class ApiService {
     final data = jsonDecode(response.body);
     return data['reply'] as String;
   }
+
+  static Future<List<dynamic>> getBudgets() async {
+    final token = await getToken();
+    final response = await http.get(
+      Uri.parse('$baseUrl/budgets/'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    return jsonDecode(response.body);
+  }
+
+  static Future<Map<String, dynamic>> setBudget(
+      String category, double limitAmount) async {
+    final token = await getToken();
+    final response = await http.post(
+      Uri.parse('$baseUrl/budgets/'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      },
+      body: jsonEncode({'category': category, 'limit_amount': limitAmount}),
+    );
+    return jsonDecode(response.body);
+  }
+
+  static Future<Map<String, dynamic>> convertCurrency(
+    double amount, String from, String to) async {
+    final token = await getToken();
+    final response = await http.get(
+      Uri.parse('$baseUrl/transactions/convert?amount=$amount&from=$from&to=$to'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    return jsonDecode(response.body);
+  }
+  static Future<Map<String, dynamic>> getRates(String base) async {
+    final token = await getToken();
+    final response = await http.get(
+      Uri.parse('$baseUrl/transactions/rates?base=$base'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    return jsonDecode(response.body);
+  }
+
+  static Future<Map<String, dynamic>> getMonthlyReport() async {
+    final token = await getToken();
+    final response = await http.get(
+      Uri.parse('$baseUrl/transactions/monthly-report'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    return jsonDecode(response.body);
+  }
 }
