@@ -1,47 +1,77 @@
-# WalletWise 💰
+# WalletWise — AI-Powered Personal Finance App
 
-> 🎥 **[Watch Demo Video](https://drive.google.com/file/d/1WpFRXltt6xUP9fUDIOA77wgdLQa89T5F/view?usp=sharing)**
+A mobile app for tracking expenses and getting AI-driven insights into spending habits.
 
-A full-stack AI-powered personal finance mobile app built with Flutter, Python Flask, and PostgreSQL.
+## 🎯 Problem
 
-## Features
-- 🔐 Secure JWT authentication
-- 💰 Income & expense tracking
-- 📊 Spending charts & analytics
-- 🎯 Budget goals with progress bars
-- 📈 Monthly financial reports
-- 💱 Live currency converter (9 currencies)
-- 🤖 AI finance assistant powered by Groq
-- 🧾 Transaction categorization with emoji icons
-- 🔍 Search & filter transactions
+Most budgeting apps show raw numbers but don't help people understand *why* their spending changes or what to do about it. WalletWise combines transaction tracking with an AI assistant that analyzes spending patterns and gives plain-language financial insights.
 
-## Tech Stack
-- **Frontend:** Flutter (Dart)
-- **Backend:** Python Flask
-- **Database:** PostgreSQL
-- **AI:** Groq (Llama 3.3)
-- **Auth:** JWT + bcrypt
+## 🏗️ Architecture
 
-## How to Run
-
-### Backend
-```bash
-cd backend
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-python run.py
+```
+[Flutter Mobile App] --> [Flask REST API] --> [PostgreSQL Database]
+                               |
+                       [Groq AI Service]
 ```
 
-### Frontend
+- **Frontend:** Flutter app handles UI, local state, and chart rendering
+- **Backend:** Flask API exposes REST endpoints for auth, transactions, and AI insights
+- **Database:** PostgreSQL stores users, transactions, and categorized spending data
+- **AI Layer:** Groq AI processes transaction history to generate spending insights and answer natural-language financial questions
+
+## ✨ Key Features
+
+- Expense tracking with categorization
+- JWT-based authentication with refresh-token rotation for persistent secure sessions
+- Real-time spending visualizations (charts/graphs of category breakdowns over time)
+- AI assistant that analyzes actual transaction data to answer questions like "where did I overspend this month?"
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | Flutter (Dart) |
+| Backend | Python, Flask |
+| Database | PostgreSQL |
+| AI | Groq AI |
+| Auth | JWT with refresh-token rotation |
+
+## 📐 Technical Decisions
+
+- **PostgreSQL over NoSQL:** transaction and category data is inherently relational, and PostgreSQL's ACID guarantees matter for financial data integrity.
+- **JWT refresh-token rotation:** access tokens are short-lived, refresh tokens rotate on use, reducing the window for token replay attacks.
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Flutter SDK
+- Python 3.10+
+- PostgreSQL instance
+
+### Installation
 ```bash
-cd walletwise_app
-flutter pub get
-flutter run -d chrome
+git clone https://github.com/Vishesh559/walletwise
+cd walletwise
+flutter pub get          # frontend dependencies
+pip install -r requirements.txt   # backend dependencies (adjust path as needed)
 ```
 
-## Screenshots
-Coming soon!
+### Running locally
+```bash
+flutter run               # mobile app
+python app.py             # backend server (adjust entry-point filename as needed)
+```
 
-## GitHub
-github.com/Vishesh559/walletwise
+## 📸 Demo
+
+*(Add a screenshot or screen recording of the app here — this significantly boosts engagement on GitHub.)*
+
+## 📈 Future Improvements
+
+- Add budget goal-setting with progress tracking
+- Support multi-currency transactions
+- Add export-to-CSV for transaction history
+
+## 📄 License
+
+MIT
